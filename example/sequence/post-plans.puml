@@ -1,0 +1,40 @@
+@startuml
+' Method diagram: POST /plans, success and every failure branch of the contract.
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+autonumber
+
+actor "Athlete" as Athlete
+participant "Plan API" as API
+database "Database" as DB
+actor "LLM Provider" as LLM
+
+title POST /plans: generate a TrainingPlan
+
+Athlete -> API : POST /plans (goal, weeks)
+
+alt goal missing or not an allowed value
+    API --> Athlete : 400 invalid goal
+else token missing or invalid
+    API --> Athlete : 401 unauthorized
+else valid request
+    API -> DB : select plans of the User where status is not DONE
+    alt an unfinished plan already exists
+        DB --> API : one row
+        API --> Athlete : 409 the User already has an unfinished plan
+    else no unfinished plan
+        DB --> API : no rows
+        API -> LLM : request a draft for the goal
+        alt provider answers in time
+            LLM --> API : draft plan content
+            API -> DB : insert TrainingPlan (status DRAFT)
+            DB --> API : plan id
+            API --> Athlete : 201 TrainingPlan (DRAFT)
+        else provider times out
+            LLM --> API : timeout
+            API --> Athlete : 504 nothing stored, retry allowed
+        end
+    end
+end
+
+@enduml

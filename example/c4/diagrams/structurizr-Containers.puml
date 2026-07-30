@@ -1,0 +1,35 @@
+@startuml
+title <size:24>Container View: Personal AI Trainer</size>\n<size:24>The deployable pieces inside the trainer.</size>
+
+set separator none
+left to right direction
+
+<style>
+  root {
+    BackgroundColor: #ffffff
+    FontColor: #444444
+  }
+</style>
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+Person(Athlete, "Athlete", $descr="States a goal, logs completed workouts, reads plans.", $tags="", $link="")
+System(LLMProvider, "LLM Provider", $descr="Drafts plan content from a goal and training history.", $tags="", $link="")
+
+System_Boundary("PersonalAITrainer_boundary", "Personal AI Trainer", $tags="") {
+  Container(PersonalAITrainer.PlanAPI, "Plan API", $techn="Python, FastAPI", $descr="Generates and serves TrainingPlans.", $tags="", $link="")
+  Container(PersonalAITrainer.AdaptationEngine, "Adaptation Engine", $techn="Python", $descr="Adapts a plan from Sessions and Metrics.", $tags="", $link="")
+  Container(PersonalAITrainer.Database, "Database", $techn="PostgreSQL 16", $descr="PostgreSQL", $tags="", $link="")
+}
+
+Rel(Athlete, PersonalAITrainer.PlanAPI, "Submits goals, logs Sessions", $techn="HTTPS, JSON", $tags="", $link="")
+Rel(PersonalAITrainer.PlanAPI, LLMProvider, "Requests a draft plan", $techn="HTTPS, JSON", $tags="", $link="")
+Rel(PersonalAITrainer.PlanAPI, PersonalAITrainer.Database, "Reads and writes plan data", $techn="SQL", $tags="", $link="")
+Rel(PersonalAITrainer.PlanAPI, PersonalAITrainer.AdaptationEngine, "Triggers recalculation", $techn="In-process", $tags="", $link="")
+Rel(PersonalAITrainer.AdaptationEngine, PersonalAITrainer.Database, "Rewrites remaining weeks", $techn="SQL", $tags="", $link="")
+
+SHOW_LEGEND(true)
+hide stereotypes
+@enduml

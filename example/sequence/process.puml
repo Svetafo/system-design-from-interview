@@ -1,0 +1,45 @@
+@startuml
+' End-to-end process: state a goal, get a plan, log a workout, read the adapted plan.
+' Participants are C4 containers. Messages are OpenAPI endpoints. External systems are drawn as
+' actors, because they are not containers of this system.
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+autonumber
+
+actor "Athlete" as Athlete
+participant "Plan API" as API
+participant "Adaptation Engine" as Engine
+database "Database" as DB
+actor "LLM Provider" as LLM
+
+title Personal AI Trainer: from a stated goal to an adapted plan
+
+== Generate the plan ==
+Athlete -> API : POST /plans (goal STRENGTH)
+API -> DB : check for an ACTIVE plan
+API -> LLM : request a draft for the goal
+LLM --> API : draft plan content
+API -> DB : insert TrainingPlan (status DRAFT)
+API --> Athlete : 201 TrainingPlan (DRAFT)
+
+== First read activates it ==
+Athlete -> API : GET /plans/{id}
+API -> DB : load TrainingPlan
+API -> DB : set status ACTIVE
+API --> Athlete : 200 TrainingPlan (ACTIVE)
+
+== Log a workout and adapt ==
+Athlete -> API : POST /sessions (completed workout)
+API -> DB : insert Session
+API -> Engine : recalculate the remaining weeks
+Engine -> DB : load Sessions of the plan
+Engine -> DB : rewrite the remaining weeks
+Engine --> API : adaptation done
+API --> Athlete : 201 Session
+
+== Read the adapted plan ==
+Athlete -> API : GET /plans/{id}
+API -> DB : load TrainingPlan
+API --> Athlete : 200 TrainingPlan (adapted remainder)
+
+@enduml

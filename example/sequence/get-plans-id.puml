@@ -1,0 +1,33 @@
+@startuml
+' Method diagram: GET /plans/{id}, including the DRAFT to ACTIVE transition on first read (FR-2).
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+autonumber
+
+actor "Athlete" as Athlete
+participant "Plan API" as API
+database "Database" as DB
+
+title GET /plans/{id}: read a TrainingPlan
+
+Athlete -> API : GET /plans/{id}
+
+alt token missing or invalid
+    API --> Athlete : 401 unauthorized
+else valid token
+    API -> DB : load TrainingPlan by id for this User
+    alt no row for this User
+        DB --> API : no rows
+        API --> Athlete : 404 not found, nothing disclosed
+    else plan is DRAFT
+        DB --> API : plan with status DRAFT
+        API -> DB : set status ACTIVE
+        DB --> API : updated
+        API --> Athlete : 200 TrainingPlan (ACTIVE)
+    else plan is ACTIVE or DONE
+        DB --> API : plan with its adapted remainder
+        API --> Athlete : 200 TrainingPlan
+    end
+end
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+' Method diagram: POST /sessions, success and every failure branch of the contract.
+' Adaptation is called in-process on the write path (ADR-0001).
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+autonumber
+
+actor "Athlete" as Athlete
+participant "Plan API" as API
+participant "Adaptation Engine" as Engine
+database "Database" as DB
+
+title POST /sessions: log a Session and adapt the remainder
+
+Athlete -> API : POST /sessions (planId, completedAt, duration)
+
+alt payload invalid
+    API --> Athlete : 400 invalid payload
+else token missing or invalid
+    API --> Athlete : 401 unauthorized
+else valid request
+    API -> DB : load TrainingPlan of this User
+    alt no such plan for this User
+        DB --> API : no rows
+        API --> Athlete : 404 not found
+    else plan is not ACTIVE
+        DB --> API : plan with status DRAFT or DONE
+        API --> Athlete : 409 the plan is not ACTIVE
+    else plan is ACTIVE
+        DB --> API : plan with status ACTIVE
+        API -> DB : insert Session
+        API -> Engine : recalculate the remaining weeks
+        Engine -> DB : load Sessions of the plan
+        Engine -> DB : rewrite the remaining weeks, past weeks untouched
+        Engine --> API : adaptation done
+        API --> Athlete : 201 Session
+    end
+end
+
+@enduml

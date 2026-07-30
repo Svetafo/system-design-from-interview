@@ -1,0 +1,213 @@
+openapi: 3.1.0
+info:
+  title: Personal AI Trainer API
+  version: 1.0.0
+  description: |
+    Contract for the Personal AI Trainer example package. Every path, tag, schema and enum value
+    here comes from `glossary.md`; `tools/check-consistency.py` enforces that.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://api.personal-trainer.dev/v1
+    description: Production
+tags:
+  - name: Plan API
+    description: Generates and serves TrainingPlans. The name is the C4 container name.
+security:
+  - bearerAuth: []
+paths:
+  /plans:
+    post:
+      tags: [Plan API]
+      operationId: createPlan
+      summary: Generate a TrainingPlan
+      description: |
+        Generates a TrainingPlan for the authenticated User from a stated Goal. The plan is stored
+        with status DRAFT. Refused when the User already has an unfinished plan (ADR-0002).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [goal]
+              properties:
+                goal:
+                  $ref: '#/components/schemas/Goal'
+                weeks:
+                  type: integer
+                  minimum: 1
+                  maximum: 24
+                  default: 8
+                  description: Plan length in weeks.
+      responses:
+        '201':
+          description: TrainingPlan generated and stored as DRAFT.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingPlan'
+        '400':
+          description: Goal missing or not one of the allowed values.
+        '401':
+          description: Bearer token missing or invalid.
+        '409':
+          description: The User already has an unfinished TrainingPlan, DRAFT or ACTIVE.
+        '504':
+          description: The LLM Provider did not answer in time. No partial plan is stored.
+  /sessions:
+    post:
+      tags: [Plan API]
+      operationId: logSession
+      summary: Log a completed Session
+      description: |
+        Logs a completed workout against the User's ACTIVE TrainingPlan and triggers recalculation
+        of the remaining weeks (ADR-0001). Past weeks are never rewritten.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [planId, completedAt, durationMinutes]
+              properties:
+                planId:
+                  type: string
+                  format: uuid
+                  description: The ACTIVE TrainingPlan this Session belongs to.
+                completedAt:
+                  type: string
+                  format: date-time
+                durationMinutes:
+                  type: integer
+                  minimum: 1
+                  maximum: 600
+                perceivedEffort:
+                  type: integer
+                  minimum: 1
+                  maximum: 10
+                  description: Athlete rating used as the adaptation signal.
+      responses:
+        '201':
+          description: Session stored and the remaining plan adapted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '400':
+          description: Payload invalid.
+        '401':
+          description: Bearer token missing or invalid.
+        '404':
+          description: No such TrainingPlan for this User.
+        '409':
+          description: The target TrainingPlan is not ACTIVE.
+  /plans/{id}:
+    get:
+      tags: [Plan API]
+      operationId: getPlan
+      summary: Read a TrainingPlan
+      description: |
+        Returns the TrainingPlan including its adapted remainder. The first successful read moves a
+        DRAFT plan to ACTIVE (FR-2).
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: TrainingPlan identifier.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The TrainingPlan.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingPlan'
+        '401':
+          description: Bearer token missing or invalid.
+        '404':
+          description: No such TrainingPlan for this User. Nothing is disclosed about other Users.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Per-Athlete bearer token.
+  schemas:
+    Goal:
+      type: string
+      description: The training goal stated by the Athlete.
+      enum: [STRENGTH, ENDURANCE, WEIGHT_LOSS]
+    PlanStatus:
+      type: string
+      description: Lifecycle state of a TrainingPlan.
+      enum: [DRAFT, ACTIVE, DONE]
+    User:
+      type: object
+      description: The person using the system.
+      required: [id, email]
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        createdAt:
+          type: string
+          format: date-time
+    TrainingPlan:
+      type: object
+      description: A plan generated for a User from their Goal.
+      required: [id, owner, goal, status, weeks]
+      properties:
+        id:
+          type: string
+          format: uuid
+        owner:
+          allOf:
+            - $ref: '#/components/schemas/User'
+          description: |
+            The User the plan belongs to. Only the owner can read a plan, so returning their own
+            record here discloses nothing (see the 404 branch of GET /plans/{id}).
+        goal:
+          $ref: '#/components/schemas/Goal'
+        status:
+          $ref: '#/components/schemas/PlanStatus'
+        weeks:
+          type: integer
+          minimum: 1
+          maximum: 24
+          description: Plan length in weeks.
+        createdAt:
+          type: string
+          format: date-time
+        adaptedAt:
+          type: [string, "null"]
+          format: date-time
+          description: When the Adaptation Engine last rewrote the remainder.
+    Session:
+      type: object
+      description: A completed workout logged by a User.
+      required: [id, planId, completedAt, durationMinutes]
+      properties:
+        id:
+          type: string
+          format: uuid
+        planId:
+          type: string
+          format: uuid
+        completedAt:
+          type: string
+          format: date-time
+        durationMinutes:
+          type: integer
+          minimum: 1
+          maximum: 600
+        perceivedEffort:
+          type: integer
+          minimum: 1
+          maximum: 10
