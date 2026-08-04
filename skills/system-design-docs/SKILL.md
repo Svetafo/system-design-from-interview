@@ -26,11 +26,19 @@ speeds up the spread of an error, not the work.
 
 Steps 0 and 1 belong to the human. You start from the transcript.
 
+When the input is a backlog instead of an interview, or answers to earlier questions have come
+back, follow [`SCENARIOS.md`](../../SCENARIOS.md). Answers re-enter at step 2 and are applied to the
+existing package; do not rebuild it from step 0.
+
 1. **Business requirements** (step 2) from [`templates/business-requirements.md`](../../templates/business-requirements.md),
    16 sections. What the transcript did not settle goes to
    [`templates/open-questions.md`](../../templates/open-questions.md), never into the requirements.
    Seed [`templates/glossary.md`](../../templates/glossary.md) with entities and enums.
-2. **Stop.** The human verifies the requirements. This gate is not yours to pass.
+2. **Gate** (step 3). Classify every open question by what it blocks (`blocks-package`,
+   `blocks-point`, `non-blocking`) and draft the clarification summary from
+   [`templates/product-owner-questions.md`](../../templates/product-owner-questions.md). Then stop:
+   the human verifies the requirements, and this gate is not yours to pass. A `blocks-point`
+   question leaves its ID in the artifact where the value is missing, never a plausible default.
 3. **ADR** (step 4) per fork, from [`templates/ADR.md`](../../templates/ADR.md):
    Context, Options, Decision, Consequences.
 4. **C4** (step 5) as Structurizr DSL, Context and Container views from one model. Render:

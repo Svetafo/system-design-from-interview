@@ -68,7 +68,7 @@ From there it's the standard SDD path downward.
 | 0 | **Interview** along 6 axes (goal+metric, scenarios, sources, functional, non-functional, acceptance) | audio recording | [guide/0](guide/0-interview.md) |
 | 1 | Transcription (Whisper or any transcriber) | `.txt` | [guide/1](guide/1-transcription.md) |
 | 2 | Business requirements (16 sections) plus open questions, seed the glossary | `md`, `glossary.md` | [guide/2](guide/2-business-requirements.md) |
-| 3 | Gate, where a human verifies the requirements | verified requirements | (none) |
+| 3 | Gate, where a human verifies the requirements and classifies what is missing | verified requirements, clarification summary | [guide/3](guide/3-gate.md) |
 | 4 | An ADR per fork | `adr/ADR-000N.md` | [guide/4](guide/4-adr.md) |
 | 5 | C4, Context plus Containers | `png` + `dsl` | [guide/5](guide/5-c4.md) |
 | 6 | OpenAPI (YAML-first) plus a method summary | `yaml` | [guide/6](guide/6-openapi.md) |
@@ -172,6 +172,9 @@ Then work the pipeline, one artifact at a time, stopping for review after each:
 
 Every step has its own guide in [`guide/`](guide), and [`example/`](example) shows what each artifact
 looks like when it is finished and validated.
+
+Runs that are not one pass, a backlog instead of an interview, missing access to code or a database,
+or answers arriving a week after the gate asked, are covered in [`SCENARIOS.md`](SCENARIOS.md).
 
 ## Context engineering (built into the method)
 

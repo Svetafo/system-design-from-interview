@@ -37,7 +37,7 @@ not the agent.
 | 0 | Interview | The analyst asks along 6 axes: goal and metric, scenarios, sources, functional, non-functional, acceptance. Recorded. | audio |
 | 1 | Transcription | The recording is run through a transcriber (Whisper). Large files are compressed. | `.txt` |
 | 2 | Business requirements | The transcript fills the 16-section template. Entities and enums are seeded into the glossary. What isn't in the interview goes to open questions. | `requirements.md`, `open-questions.md`, `glossary.md` |
-| 3 | Gate | The human verifies numbers and names. Nothing below proceeds until confirmed. | verified requirements |
+| 3 | Gate | The human verifies numbers and names, and classifies what is missing by what it blocks. Nothing below proceeds until confirmed. | verified requirements, `product-owner-questions.md` |
 | 4 | ADR | Each parked fork is written up as Context, Options, Decision, Consequences. | `adr/ADR-000N.md` |
 | 5 | C4 | Context and Containers are derived from the requirements. API tags equal C4 containers. | `Context.png`, `Containers.png` |
 | 6 | OpenAPI | A method summary traces to FR and UC first, then YAML as the source of truth. Method pages are generated from the YAML. | `api.yaml` |
@@ -62,6 +62,15 @@ unbuilt).
 - **Compress and select.** Templates and the "do not invent" rule are the output format.
 - On conflicting sources, name the authoritative one (contract or code), not a circular
   reference to your own analysis.
+
+## When it isn't one pass
+The table above reads as a single run from a conversation to working software. Real work enters at
+different points: the input is a backlog rather than an interview, or answers to the gate's
+questions arrive a week later and the package has to resume without being rebuilt.
+[`SCENARIOS.md`](SCENARIOS.md) covers those entry points. The steps do not change; what changes is
+where you enter and what you carry in. The one rule worth stating here: when answers come back, you
+re-enter at step 2 with the answered summary, never at step 0, because starting over discards the
+requirements a human already verified.
 
 ## Where the method starts, and why that matters
 SDD frameworks assume a specification already exists. This method starts one step earlier, at

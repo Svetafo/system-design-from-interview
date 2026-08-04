@@ -29,7 +29,7 @@ shot: what speeds up then is not the work but the spread of an error.
 | Step | You produce | Template |
 |---|---|---|
 | 2 | Business requirements, open questions, and the seeded glossary (entities, enums) | `templates/business-requirements.md`, `templates/open-questions.md`, `templates/glossary.md` |
-| 3 | Nothing. The human verifies the requirements. Do not proceed past this gate on your own | |
+| 3 | The clarification summary, generated from open questions and classified by what each blocks. The human verifies the requirements; do not proceed past this gate on your own | `templates/product-owner-questions.md` |
 | 4 | One ADR per real fork | `templates/ADR.md` |
 | 5 | Structurizr DSL, Context and Container views; add containers to the glossary | |
 | 6 | Method summary, then OpenAPI YAML, then one page per method; add endpoints to the glossary | `templates/methods-summary.md`, `templates/method-page.md` |
@@ -39,6 +39,12 @@ shot: what speeds up then is not the work but the spread of an error.
 | 10 | Hand the package to implementation | see `guide/10-implementation.md` |
 
 Steps 0 and 1 (the interview and its transcript) are the human's. You start from the transcript.
+
+Not every run starts there. Read [`SCENARIOS.md`](SCENARIOS.md) when the input is a backlog rather
+than an interview, when access to code or a database is missing, or when answers to earlier
+questions have come back. In that last case you re-enter at step 2 and apply the answers to the
+existing package. You do not rebuild it from step 0: the requirements below the gate were verified
+by a human, and regenerating them from scratch throws that away and asks for it again.
 
 ## Commands you are expected to run
 
