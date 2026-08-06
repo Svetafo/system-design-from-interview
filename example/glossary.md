@@ -35,3 +35,9 @@ participants.
 - `Plan API`: generates and serves TrainingPlans
 - `Adaptation Engine`: adapts a plan from Sessions and Metrics
 - `Database`: PostgreSQL
+
+## External systems
+Systems outside the boundary. They are not containers and nothing here is built by this package,
+but sequence diagrams talk to them, so they are named here once like everything else.
+
+- `LLM Provider`: drafts plan content from a goal and training history

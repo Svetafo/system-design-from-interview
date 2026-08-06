@@ -49,25 +49,51 @@ def norm(s):
 
 # --- glossary (the source of truth) ---------------------------------------------------------
 
+# Section headings, per canonical section. The method ships a full Russian mirror, so a package
+# written in Russian has to pass this gate too; without the aliases the parser finds nothing and
+# reports every name as missing, which reads like drift and is not.
+GLOSSARY_HEADINGS = {
+    "Entities":   ("Entities", "Сущности"),
+    "Enums":      ("Enums", "Enum", "Енумы", "Перечисления"),
+    "Endpoints":  ("Endpoints", "Эндпоинты", "Методы"),
+    "Containers": ("Containers", "Контейнеры"),
+    "External":   ("External systems", "Внешние системы"),
+}
+HEADING_TO_SECTION = {alias.lower(): canon
+                      for canon, aliases in GLOSSARY_HEADINGS.items()
+                      for alias in aliases}
+
+# The DDL table name inside an entity line: "(DDL table: `x`)" or "(таблица: `x`)".
+TABLE_MARKER = re.compile(r"(?:table|таблица)\s*:?\s*`([^`]+)`", re.I)
+
+# A package for a feature inside a running system references tables and containers it does not
+# create. Marking such an entry keeps it usable everywhere (conformance) while excluding it from
+# coverage, which otherwise demands a CREATE TABLE this package has no business writing.
+EXISTING_MARKER = re.compile(r"\b(existing|существует|существующая|существующий)\b", re.I)
+
+
 def parse_glossary(text):
     """Return canonical name sets from glossary.md."""
     sections, current = {}, None
     for line in text.splitlines():
-        h = re.match(r"##\s+(Entities|Enums|Endpoints|Containers)\s*$", line)
+        h = re.match(r"##\s+(.+?)\s*$", line)
         if h:
-            current = h.group(1)
-            sections[current] = []
+            current = HEADING_TO_SECTION.get(h.group(1).strip().lower())
+            if current:
+                sections.setdefault(current, [])
         elif current and line.lstrip().startswith("- "):
             sections[current].append(line.strip()[2:])
 
-    entities, tables = set(), set()
+    entities, tables, existing_tables = set(), set(), set()
     for item in sections.get("Entities", []):
         name = re.search(r"`([^`]+)`", item)
-        tbl = re.search(r"table:\s*`([^`]+)`", item)
+        tbl = TABLE_MARKER.search(item)
         if name:
             entities.add(name.group(1))
         if tbl:
             tables.add(tbl.group(1))
+            if EXISTING_MARKER.search(item):
+                existing_tables.add(tbl.group(1))
 
     enums = {}
     for item in sections.get("Enums", []):
@@ -85,15 +111,25 @@ def parse_glossary(text):
             parts = token.split()
             endpoint_paths.add(parts[-1] if parts else token)
 
-    containers = set()
+    containers, existing_containers = set(), set()
     for item in sections.get("Containers", []):
         c = re.search(r"`([^`]+)`", item)
         if c:
             containers.add(c.group(1))
+            if EXISTING_MARKER.search(item):
+                existing_containers.add(c.group(1))
+
+    externals = set()
+    for item in sections.get("External", []):
+        e = re.search(r"`([^`]+)`", item)
+        if e:
+            externals.add(e.group(1))
 
     return {
         "entities": entities, "tables": tables, "enums": enums,
-        "endpoints": endpoints, "endpoint_paths": endpoint_paths, "containers": containers,
+        "endpoints": endpoints, "endpoint_paths": endpoint_paths,
+        "containers": containers, "externals": externals,
+        "existing_tables": existing_tables, "existing_containers": existing_containers,
     }
 
 
@@ -157,12 +193,19 @@ def check_c4(text, gl, fails, warns):
 
 
 def check_sequence(text, gl, fails, warns):
+    known = gl["containers"] | gl["externals"]
     for m in re.finditer(r'(?:participant|database|entity)\s+"([^"]+)"', text):
-        if m.group(1) not in gl["containers"]:
-            fails.append(f"Sequence participant not a glossary Container: {m.group(1)!r}")
-    for path in set(re.findall(r"(/[\w{}/-]+)", text)):
-        if path not in gl["endpoint_paths"]:
-            fails.append(f"Sequence message path not a glossary Endpoint: {path}")
+        if m.group(1) not in known:
+            fails.append(
+                f"Sequence participant is neither a glossary Container nor an "
+                f"External system: {m.group(1)!r}")
+    # A package whose feature exposes no HTTP surface declares no endpoints, and then a slash in a
+    # message is a bot command or a file path, not a contract path. Only check when there is a
+    # contract to check against.
+    if gl["endpoint_paths"]:
+        for path in set(re.findall(r"(/[\w{}/-]+)", text)):
+            if path not in gl["endpoint_paths"]:
+                fails.append(f"Sequence message path not a glossary Endpoint: {path}")
 
 
 # --- coverage: the reverse direction, is every glossary name actually implemented? ----------
@@ -176,11 +219,11 @@ def check_coverage(gl, openapi, ddl, c4, fails):
     if ddl is not None:
         present = {m.group(1) for m in
                    re.finditer(r"create\s+table\s+(?:if\s+not\s+exists\s+)?(\w+)", ddl, re.I)}
-        for t in gl["tables"] - present:
+        for t in gl["tables"] - present - gl["existing_tables"]:
             fails.append(f"Coverage: glossary entity table missing from DDL: {t}")
     if c4 is not None:
         present = {m.group(1) for m in C4_CONTAINER.finditer(c4)}
-        for c in gl["containers"] - present:
+        for c in gl["containers"] - present - gl["existing_containers"]:
             fails.append(f"Coverage: glossary Container missing from C4: {c!r}")
 
 

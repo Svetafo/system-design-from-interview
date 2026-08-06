@@ -10,7 +10,7 @@ actor "Athlete" as Athlete
 participant "Plan API" as API
 participant "Adaptation Engine" as Engine
 database "Database" as DB
-actor "LLM Provider" as LLM
+participant "LLM Provider" as LLM
 
 title Personal AI Trainer: from a stated goal to an adapted plan
 

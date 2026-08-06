@@ -41,3 +41,22 @@ participants.
 - `Plan API`: generates and serves TrainingPlans
 - `Adaptation Engine`: adapts a plan from Sessions and Metrics
 - `Database`: PostgreSQL
+
+## External systems
+Systems outside the boundary. Not containers, and nothing here is built by this package, but
+sequence diagrams talk to them, so they are named once like everything else.
+
+- `LLM Provider`: drafts plan content from a goal and history
+
+## Designing a feature inside a running system
+A package for one feature references tables and containers it does not create. Mark those entries
+`existing` and the gate keeps them usable everywhere while not demanding a `CREATE TABLE` this
+package has no business writing:
+
+```
+- `User` (DDL table: `users`, existing): the person using the system
+- `Plan API` (existing): already deployed, this feature only adds to it
+```
+
+Without the marker the coverage check fails on every table the surrounding system already owns,
+which reads like a defect in the package and is not.

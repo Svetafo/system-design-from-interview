@@ -7,7 +7,7 @@ autonumber
 actor "Athlete" as Athlete
 participant "Plan API" as API
 database "Database" as DB
-actor "LLM Provider" as LLM
+participant "LLM Provider" as LLM
 
 title POST /plans: generate a TrainingPlan
 
