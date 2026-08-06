@@ -29,5 +29,37 @@ NFR-3  p95 response time: TBD (Q-2)
 ```
 
 When a question turns into a real decision with alternatives, promote it to an ADR and note the
-ADR ID here. When an answer arrives, close the entry here first, then follow scenario C in
-[`SCENARIOS.md`](../SCENARIOS.md).
+ADR ID here.
+
+## Closing an entry
+
+Answers land here first, whatever route they arrived by. Strike the ID, write what closed it in
+`Closes by`, with the date and the source:
+
+```
+| ~~Q-12~~ | question | CLOSED | Real size of the archive | Section 12 | Closed 06.08: 234 MB.
+  Source: `unzip -l` on a real export |
+```
+
+Answering directly in this file is the normal case when the person who can answer is the one
+holding the package. Four things hold whether you answer in writing or out loud:
+
+- **"I don't know" closes nothing but is not a wasted answer.** It means nobody knows, which is a
+  finding: the entry stays open and usually becomes a risk or an ADR rather than a value.
+- **A rough answer stays rough.** "A week, I suppose" is recorded as a `proposal:`, not as a
+  decision, so nobody quotes it back as fact later.
+- **Answers by voice are a normal route.** Say the entry ID before each answer; the rest is in
+  [`SCENARIOS.md`](../SCENARIOS.md), scenario C.
+- **More than was asked is welcome**, and enters the requirements with its source named.
+
+When the answers are in, follow scenario C: close here, then apply them to the artifacts.
+
+## When to also write a clarification summary
+
+Only when the person answering is outside the package: a stakeholder, a product owner on another
+team, someone who will read a forwarded file and nothing else. Then
+[`product-owner-questions.md`](product-owner-questions.md) is generated from this register, carrying
+only the entries that person can close, in their language.
+
+If the one who can answer is the one holding the package, do not produce it. Two files with the same
+questions is not thoroughness, it is a second place to drift from.

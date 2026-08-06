@@ -58,16 +58,21 @@ themselves say nothing about the pipeline that produced them, so without this fi
 starts by re-explaining the state out loud, and an agent that does not know the state will help the
 way it knows how: editing artifacts by hand and drifting from the register.
 
-**The clarification summary**, sent outward:
-[`templates/product-owner-questions.md`](../templates/product-owner-questions.md). It is generated
-from `open-questions.md`, ordered by class, addressed to whoever can close each item. It leaves the
-project. Write it so someone with no context can answer it in a few minutes, in a thread, without
-reading the requirements.
+**Something goes to whoever can answer.** Most often that is `open-questions.md` itself: if the
+reader is close to the project, forward the register and skip the rest of this section.
 
-It carries its own instructions for the recipient, and that block is not optional. The person
-answering has never read this method and never will: how to answer, that a voice reply works if
-they say the question id, and that "I don't know" is a real answer, all have to travel inside the
-document. You cannot attach yourself to a file that gets forwarded.
+Rewrite it as a clarification summary,
+[`templates/product-owner-questions.md`](../templates/product-owner-questions.md), when the register
+would not be answerable by the person you need: it carries entries they cannot close, `Affects`
+lists artifacts that mean nothing to them, and the questions are phrased for the package rather than
+for a person. Sending the register to such a reader does not save work, it moves the translation onto
+them, and silence is what usually comes back.
+
+Either way the file leaves the project, so it carries its own instructions for the recipient, and
+that block is not optional. The person answering has never read this method and never will: how to
+answer, that a voice reply works if they say the question id, and that "I don't know" is a real
+answer, all have to travel inside the document. You cannot attach yourself to a file that gets
+forwarded.
 
 ## Which diagram
 None. The first diagram is C4 at step 5.
@@ -86,11 +91,11 @@ reads as fact to everyone downstream, and nobody will ever ask about it again.
 - Every entry in `open-questions.md` has a class and a named closer.
 - Every `blocks-point` entry has at least one matching marker in an artifact, and every marker in an
   artifact has a matching entry.
-- The clarification summary is answerable by its recipient without further explanation.
+- Whatever goes out is answerable by its recipient without further explanation.
 
 ## Signs it's good
 - You can state, in one sentence each, what proceeds, what waits, and who is being asked what.
-- The clarification summary is short enough that someone actually answers it.
+- What went out is short enough that someone actually answers it.
 - Nothing below the gate contains a number you cannot point at a source for.
 - A stranger reading the package can tell a decision from a hole at a glance.
 

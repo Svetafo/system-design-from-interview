@@ -1,12 +1,20 @@
 # Clarification Summary
 
-The one document the gate sends outward. Generated from `open-questions.md`, addressed to whoever
-can close each item, and written so they can answer in a few minutes without opening the package.
+`open-questions.md` rewritten for one specific reader. Not a second register and not a mandatory
+artifact: it exists when the register would not be answerable by the person you need an answer from.
 
-This is not an internal register. It leaves the project, as a message or a ticket comment, and it
-comes back with the answer column filled. That filled file is the input for scenario C in
-[`SCENARIOS.md`](../SCENARIOS.md), so keep it as a file rather than letting the answers live in a
-chat thread.
+**Forwarding the register itself is fine** when the reader is close to the project and reads
+`proposal:`, `blocks-package` and `NFR-3` without effort. Do that, and skip this file.
+
+**Rewrite it here** when they are not: when the register carries entries they cannot close (closed by
+code, by a linter, by a measurement), when `Affects` lists artifacts that mean nothing to them, or
+when the questions are phrased for the package rather than for a person. Forwarding a register to
+such a reader does not save work, it moves the translation onto them, and what usually comes back is
+silence.
+
+Whichever you send, it comes back with answers and becomes the input for scenario C in
+[`SCENARIOS.md`](../SCENARIOS.md). Keep it as a file rather than letting the answers live in a chat
+thread.
 
 Everything from the horizontal rule down goes to the recipient as-is, including the block that
 tells them how to answer. They have never read this method and never will: whatever they need to

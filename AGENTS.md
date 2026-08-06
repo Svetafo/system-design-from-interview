@@ -31,7 +31,7 @@ shot: what speeds up then is not the work but the spread of an error.
 | Step | You produce | Template |
 |---|---|---|
 | 2 | Business requirements, open questions, and the seeded glossary (entities, enums) | `templates/business-requirements.md`, `templates/open-questions.md`, `templates/glossary.md` |
-| 3 | The package state, plus the clarification summary generated from open questions and classified by what each blocks. The human verifies the requirements; do not proceed past this gate on your own | `templates/package-state.md`, `templates/product-owner-questions.md` |
+| 3 | The package state, and every open question classified by what it blocks. A clarification summary only if someone outside the package answers; otherwise they answer in the register. The human verifies the requirements; do not proceed past this gate on your own | `templates/package-state.md`, `templates/product-owner-questions.md` |
 | 4 | One ADR per real fork | `templates/ADR.md` |
 | 5 | Structurizr DSL, Context and Container views; add containers to the glossary | |
 | 6 | Method summary, then OpenAPI YAML, then one page per method; add endpoints to the glossary | `templates/methods-summary.md`, `templates/method-page.md` |

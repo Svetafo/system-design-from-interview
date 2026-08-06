@@ -59,9 +59,10 @@ package; do not rebuild it from step 0.
    requirements. Seed the glossary (`$REPO/templates/glossary.md`) with entities and enums.
 2. **Gate** (step 3). Classify every open question by what it blocks (`blocks-package`,
    `blocks-point`, `non-blocking`), write the package state from `$REPO/templates/package-state.md`
-   so the folder describes itself to the next session, and draft the clarification summary from
-   `$REPO/templates/product-owner-questions.md` including the block telling its recipient how to
-   answer. Then stop: the human verifies the requirements, and
+   so the folder describes itself to the next session. Draft the clarification summary from
+   `$REPO/templates/product-owner-questions.md`, with its recipient-facing block, only when someone
+   outside the package answers; when the holder of the package can answer, they answer in the
+   register and no summary is made. Then stop: the human verifies the requirements, and
    this gate is not yours to pass. A `blocks-point` question leaves its ID in the artifact where the
    value is missing, never a plausible default.
 3. **ADR** (step 4) per fork, from `$REPO/templates/ADR.md`: Context, Options, Decision,
