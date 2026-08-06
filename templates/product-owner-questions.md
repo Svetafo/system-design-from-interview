@@ -8,6 +8,35 @@ comes back with the answer column filled. That filled file is the input for scen
 [`SCENARIOS.md`](../SCENARIOS.md), so keep it as a file rather than letting the answers live in a
 chat thread.
 
+Everything from the horizontal rule down goes to the recipient as-is, including the block that
+tells them how to answer. They have never read this method and never will: whatever they need to
+know has to travel inside the document, because you cannot attach yourself to it.
+
+---
+
+## How to answer this
+
+Someone is designing <what>, and the questions below are what the existing description does not
+settle. Nothing gets invented in their place, which is why you are being asked.
+
+**Answer whichever way is faster for you.**
+
+- *In writing:* fill the Answer column. A few words each is enough.
+- *By voice:* record a message and go down the list, saying the question number before each answer
+  ("Q-2, on a repeated upload..."). The number is what attaches your answer to the right question.
+
+**Four things worth knowing.**
+
+- "I don't know" is a real answer, not a failure. It means nobody knows, which is itself a finding
+  and changes what gets designed.
+- A rough answer is useful if you say it is rough. "A week, I suppose" gets recorded as a leaning
+  rather than a decision, and nobody will later quote it back as a fact.
+- Skipping a question is fine. It stays open and comes back.
+- Saying more than was asked is welcome. Anything you mention is treated as a source and recorded
+  with your name on it.
+
+---
+
 ## What is blocked right now
 
 > One sentence: what cannot proceed until these are answered, and what proceeds regardless.

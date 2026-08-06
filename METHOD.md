@@ -36,8 +36,8 @@ not the agent.
 |---|------|--------------|--------|
 | 0 | Interview | The analyst asks along 6 axes: goal and metric, scenarios, sources, functional, non-functional, acceptance. Recorded. | audio |
 | 1 | Transcription | The recording is run through a transcriber (Whisper). Large files are compressed. | `.txt` |
-| 2 | Business requirements | The transcript fills the 16-section template. Entities and enums are seeded into the glossary. What isn't in the interview goes to open questions. | `requirements.md`, `open-questions.md`, `glossary.md` |
-| 3 | Gate | The human verifies numbers and names, and classifies what is missing by what it blocks. Nothing below proceeds until confirmed. | verified requirements, `product-owner-questions.md` |
+| 2 | Business requirements | The transcript fills the 19-section template. Entities and enums are seeded into the glossary. What isn't in the interview goes to open questions. | `requirements.md`, `open-questions.md`, `glossary.md` |
+| 3 | Gate | The human verifies numbers and names, and classifies what is missing by what it blocks. Nothing below proceeds until confirmed. | `package-state.md`, `product-owner-questions.md` |
 | 4 | ADR | Each parked fork is written up as Context, Options, Decision, Consequences. | `adr/ADR-000N.md` |
 | 5 | C4 | Context and Containers are derived from the requirements. API tags equal C4 containers. | `Context.png`, `Containers.png` |
 | 6 | OpenAPI | A method summary traces to FR and UC first, then YAML as the source of truth. Method pages are generated from the YAML. | `api.yaml` |

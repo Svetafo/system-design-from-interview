@@ -45,11 +45,29 @@ The ID is what makes the return trip cheap. Grep for `Q-7` a week later and ever
 answer touches is listed for you.
 
 ## What the text looks like
-The gate produces one document to send outward: the clarification summary,
+The gate produces two files. One travels outward, one stays with the package.
+
+**The package state**, [`templates/package-state.md`](../templates/package-state.md), stays. It
+records which method built this, where the method lives, the step reached, the verdict, what is
+blocking, and what happens next. Written at every gate and kept short: a position report, not a
+summary of the package.
+
+It exists because a package is opened cold more often than it is worked on continuously, by a
+different session, a different agent, or a colleague who was not in the conversation. The artifacts
+themselves say nothing about the pipeline that produced them, so without this file every resumption
+starts by re-explaining the state out loud, and an agent that does not know the state will help the
+way it knows how: editing artifacts by hand and drifting from the register.
+
+**The clarification summary**, sent outward:
 [`templates/product-owner-questions.md`](../templates/product-owner-questions.md). It is generated
 from `open-questions.md`, ordered by class, addressed to whoever can close each item. It leaves the
 project. Write it so someone with no context can answer it in a few minutes, in a thread, without
 reading the requirements.
+
+It carries its own instructions for the recipient, and that block is not optional. The person
+answering has never read this method and never will: how to answer, that a voice reply works if
+they say the question id, and that "I don't know" is a real answer, all have to travel inside the
+document. You cannot attach yourself to a file that gets forwarded.
 
 ## Which diagram
 None. The first diagram is C4 at step 5.
