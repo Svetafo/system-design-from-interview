@@ -5,14 +5,38 @@ description: Assembles a system design package from a stakeholder interview, fol
 
 # System Design Docs
 
-Orchestrates the pipeline from [`AGENTS.md`](../../AGENTS.md). Read that file and
-[`CONSTITUTION.md`](../../CONSTITUTION.md) first: the principles there outrank anything here.
+Orchestrates the method in the `system-design-from-interview` repository. The templates, guides and
+tools it needs live in that repository, not in this file.
 
-Where things live: guides in [`guide/`](../../guide), templates in
-[`templates/`](../../templates), tools in [`tools/`](../../tools), a complete worked package in
-[`example/`](../../example). Paths below are relative to the repository root, so run from there. If
-you copied this skill into `~/.claude/skills/` and work in another project, ask the user where the
-clone is and use the tools from it.
+## First: locate the repository
+
+Every path in this skill is written relative to the repository root, and the skill cannot work
+without it: the templates are the artifact formats, and `tools/` holds the validators.
+
+Resolve the root once, before anything else, in this order:
+
+1. `$SD_METHOD_REPO`, if the user has set it.
+2. The current project, if it *is* the repository (a `CONSTITUTION.md` and a `guide/` next to each
+   other at the top level).
+3. Ask the user where their clone is. Do not guess a path and do not proceed without one.
+
+If there is no clone, say so and stop. Drafting from memory produces documents in the right shape
+with none of the discipline, which is worse than not starting, and the tools in step 5 onward will
+not exist. The clone is one command:
+
+```bash
+git clone https://github.com/Svetafo/system-design-from-interview
+```
+
+Call that root `$REPO` for the rest of this skill and read from it with full paths. Run the shell
+commands below from `$REPO` too, since they invoke `tools/` by relative path.
+
+## Read before drafting
+
+- `$REPO/CONSTITUTION.md`, first. Its principles outrank anything in this file.
+- `$REPO/AGENTS.md`, the same pipeline in agent-facing form.
+- `$REPO/guide/<step>.md` for the step you are on.
+- `$REPO/example/`, one complete package, for what a finished artifact looks like.
 
 ## Principle
 
@@ -27,29 +51,27 @@ speeds up the spread of an error, not the work.
 Steps 0 and 1 belong to the human. You start from the transcript.
 
 When the input is a backlog instead of an interview, or answers to earlier questions have come
-back, follow [`SCENARIOS.md`](../../SCENARIOS.md). Answers re-enter at step 2 and are applied to the
-existing package; do not rebuild it from step 0.
+back, follow `$REPO/SCENARIOS.md`. Answers re-enter at step 2 and are applied to the existing
+package; do not rebuild it from step 0.
 
-1. **Business requirements** (step 2) from [`templates/business-requirements.md`](../../templates/business-requirements.md),
-   16 sections. What the transcript did not settle goes to
-   [`templates/open-questions.md`](../../templates/open-questions.md), never into the requirements.
-   Seed [`templates/glossary.md`](../../templates/glossary.md) with entities and enums.
+1. **Business requirements** (step 2) from `$REPO/templates/business-requirements.md`, 16 sections.
+   What the transcript did not settle goes to `$REPO/templates/open-questions.md`, never into the
+   requirements. Seed the glossary (`$REPO/templates/glossary.md`) with entities and enums.
 2. **Gate** (step 3). Classify every open question by what it blocks (`blocks-package`,
    `blocks-point`, `non-blocking`) and draft the clarification summary from
-   [`templates/product-owner-questions.md`](../../templates/product-owner-questions.md). Then stop:
-   the human verifies the requirements, and this gate is not yours to pass. A `blocks-point`
-   question leaves its ID in the artifact where the value is missing, never a plausible default.
-3. **ADR** (step 4) per fork, from [`templates/ADR.md`](../../templates/ADR.md):
-   Context, Options, Decision, Consequences.
+   `$REPO/templates/product-owner-questions.md`. Then stop: the human verifies the requirements, and
+   this gate is not yours to pass. A `blocks-point` question leaves its ID in the artifact where the
+   value is missing, never a plausible default.
+3. **ADR** (step 4) per fork, from `$REPO/templates/ADR.md`: Context, Options, Decision,
+   Consequences.
 4. **C4** (step 5) as Structurizr DSL, Context and Container views from one model. Render:
    ```bash
    bash tools/c4-render.sh <workspace.dsl> <output-dir>
    ```
    Add the container names to the glossary. They become the OpenAPI tags.
 5. **OpenAPI** (step 6), in this order: the method summary
-   ([`templates/methods-summary.md`](../../templates/methods-summary.md)) tracing every endpoint to
-   an FR or UC, then the YAML, then a page per method
-   ([`templates/method-page.md`](../../templates/method-page.md)), then the generated reference:
+   (`$REPO/templates/methods-summary.md`) tracing every endpoint to an FR or UC, then the YAML, then
+   a page per method (`$REPO/templates/method-page.md`), then the generated reference:
    ```bash
    npx @redocly/cli lint <api.yaml>                              # expect 0 errors
    npx @redocly/cli build-docs <api.yaml> -o <api-reference.html>
@@ -75,8 +97,11 @@ existing package; do not rebuild it from step 0.
    ```
    Exit 0 passes, 1 fails. Use `--no-coverage` while the package is still being built. A failure
    names the exact drift: fix it at the source of the name. Then walk
-   [`checklists/ai-review.md`](../../checklists/ai-review.md).
-9. **Hand off** (step 10), see [`guide/10-implementation.md`](../../guide/10-implementation.md).
+   `$REPO/checklists/ai-review.md`.
+9. **Hand off** (step 10), see `$REPO/guide/10-implementation.md`.
+
+Artifacts are written into the user's project, not into `$REPO`. The repository is read-only here:
+it supplies the formats and the validators.
 
 ## The glossary is the source of names
 

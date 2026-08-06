@@ -19,7 +19,9 @@ convenient shortcut. If a request conflicts with one, say so instead of quietly 
    for a personal AI trainer, and every file in it passed its tool.
 
 On Claude Code, [`skills/system-design-docs`](skills/system-design-docs) packages all of this as a
-skill: copy it into `~/.claude/skills/` and it drives the order of work and the commands below.
+skill that drives the order of work and the commands below. Install it by symlinking it into
+`~/.claude/skills/` rather than copying, since it reads the templates and tools from this
+repository; see the README for the two commands.
 
 ## Order of work
 

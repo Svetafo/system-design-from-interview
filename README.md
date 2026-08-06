@@ -144,9 +144,19 @@ up on their own, and if yours does not, hand it that file plus
 [`CONSTITUTION.md`](CONSTITUTION.md). A browser chat can draft the artifacts but cannot run the
 tools, so someone has to run them before the package is trusted.
 
-On Claude Code there is also a ready skill, [`skills/system-design-docs`](skills/system-design-docs).
-Copy that folder into `~/.claude/skills/` and the agent will drive the pipeline itself, running each
-tool at its step instead of being reminded to.
+On Claude Code there is also a ready skill, [`skills/system-design-docs`](skills/system-design-docs),
+which drives the pipeline itself, running each tool at its step instead of being reminded to. Install
+it by pointing `~/.claude/skills/` at your clone rather than copying the folder, because the skill
+reads the templates and tools from the repository:
+
+```bash
+ln -s "$(pwd)/skills/system-design-docs" ~/.claude/skills/system-design-docs
+export SD_METHOD_REPO="$(pwd)"          # optional, add to your shell profile
+```
+
+Run both from the root of your clone. Without `SD_METHOD_REPO` the skill asks where the clone is on
+first use. It writes artifacts into whatever project you are working in; the repository itself stays
+read-only and supplies the formats and the validators.
 
 Then work the pipeline, one artifact at a time, stopping for review after each:
 
