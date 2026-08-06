@@ -139,6 +139,15 @@ cd system-design-from-interview
 OpenAPI linter (via `npx`, nothing installed globally); Python 3 with PyYAML for the gate. A
 transcriber such as Whisper for step 1.
 
+PyYAML is the one thing the gate imports, and only on the `--openapi` branch, so a gate run without
+a contract works on a bare Python 3. Install it into a virtualenv beside the clone rather than into
+the system Python:
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install PyYAML
+.venv/bin/python tools/check-consistency.py ...
+```
+
 **Point your agent at the repo.** [`AGENTS.md`](AGENTS.md) is the entry point: coding agents pick it
 up on their own, and if yours does not, hand it that file plus
 [`CONSTITUTION.md`](CONSTITUTION.md). A browser chat can draft the artifacts but cannot run the
