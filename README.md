@@ -158,6 +158,9 @@ Run both from the root of your clone. Without `SD_METHOD_REPO` the skill asks wh
 first use. It writes artifacts into whatever project you are working in; the repository itself stays
 read-only and supplies the formats and the validators.
 
+If `ln` reports `File exists`, you already have a skill by that name. Rename or remove yours first,
+or symlink this one under a different name: the last path segment is what the agent will call it.
+
 Then work the pipeline, one artifact at a time, stopping for review after each:
 
 1. **Interview** (step 0, yours, not the agent's). Run it with
