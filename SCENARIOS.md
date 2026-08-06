@@ -86,6 +86,45 @@ frame, and answers land in named slots rather than reopening the design.
 **Keep the trail.** Commit at every gate. A week later, `git diff` against the last gate shows
 exactly what the answers moved, which is also the honest report of what the round trip bought.
 
+### When the answers come by voice
+
+Writing into a table is not how most people prefer to answer. Talking through the summary out loud
+is faster and usually gives more, so treat it as a normal path rather than an exception.
+
+**Nothing detects this on its own.** A recording is not self-describing: you hand it over saying it
+is answers to the clarification summary, exactly as a transcript of an interview arrives labelled as
+an interview. That statement is the linkage, and it is the human's to make.
+
+**Speak the question id.** Go down the summary in order and start each answer with its id: "Q-2, on
+a repeated link...". The id is what attaches an answer to a question without inference. Answers
+given without ids have to be matched by meaning, and that is a guess wearing the clothes of a
+result.
+
+**Transcribe with the step 1 machinery.** Nothing new is introduced: the same transcriber, the same
+rule against smoothing. "A week, I suppose" must survive as "I suppose", because it is a leaning and
+not a decision, and it belongs in the register as a `proposal:` rather than in a requirement.
+
+**The transcript is the source, the filled summary is derived from it.** Keep both. The summary
+records what was decided; the transcript is what you return to in a month when it turns out the
+answer was read one way and meant another. Source column reads "product owner, recording of
+<date>".
+
+Three rules keep this honest:
+
+- An answer that cannot be attached to an id with confidence closes nothing. It is reported as
+  unmatched and stays open.
+- A question that was skipped stays open. Do not infer it from the talk around it.
+- Answers beyond what was asked are legitimate, because the product owner is a primary source. They
+  enter the requirements with the recording named as their source, which is the reason to keep the
+  transcript at all: otherwise a fact appears in the package a week later with no traceable origin.
+
+**Then the human checks the attribution before it goes downstream.** An answer landing on the wrong
+question is the failure mode here, and it multiplies exactly like a bad requirement. Verify the
+numbers against the audio while you are at it: a misheard fifteen for fifty reaches an NFR and
+petrifies there.
+
+From that point the order above applies unchanged, starting at closing the answered entries.
+
 ---
 
 ## D. Partial sources
