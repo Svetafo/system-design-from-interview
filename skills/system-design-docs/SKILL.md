@@ -54,7 +54,7 @@ When the input is a backlog instead of an interview, or answers to earlier quest
 back, follow `$REPO/SCENARIOS.md`. Answers re-enter at step 2 and are applied to the existing
 package; do not rebuild it from step 0.
 
-1. **Business requirements** (step 2) from `$REPO/templates/business-requirements.md`, 16 sections.
+1. **Business requirements** (step 2) from `$REPO/templates/business-requirements.md`, 19 sections.
    What the transcript did not settle goes to `$REPO/templates/open-questions.md`, never into the
    requirements. Seed the glossary (`$REPO/templates/glossary.md`) with entities and enums.
 2. **Gate** (step 3). Classify every open question by what it blocks (`blocks-package`,

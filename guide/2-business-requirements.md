@@ -11,7 +11,7 @@ DDL, is derived from this file, so an error here multiplies. Nothing proceeds un
 has verified it (step 3).
 
 ## What goes inside
-Fill the 16 sections of [`templates/business-requirements.md`](../templates/business-requirements.md).
+Fill the 19 sections of [`templates/business-requirements.md`](../templates/business-requirements.md).
 The load-bearing ones:
 
 - **Goal and metric:** one sentence, plus how success is measured as a number.
@@ -21,6 +21,16 @@ The load-bearing ones:
 - **Entities:** the nouns. These become DDL tables and API schemas.
 - **Non-functional requirements (NFR):** as numbers, never adjectives.
 - **Business rules:** constraints that aren't a single endpoint.
+
+Three more carry the document rather than the design, and they are the ones people drop first:
+
+- **Document passport:** date, version, author. A requirements document that circulates without
+  these cannot be cited, and nobody can tell which version they are holding.
+- **Context and background:** the problem, who asked, and why now, in the stakeholder's words. The
+  goal says what the system does; this says why anyone wanted it.
+- **Risks:** what could make this fail and what it would cost. Not the same as an open question: a
+  question has an answer someone can give, a risk may happen anyway. Park it with an early sign to
+  watch for, not with a mitigation you invented.
 
 ## What the text looks like
 Plain, numbered, traceable. Each FR is a testable statement, not a paragraph. Names are the
