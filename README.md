@@ -71,7 +71,7 @@ From there it's the standard SDD path downward.
 | 3 | Gate, where a human verifies the requirements and classifies what is missing | package state, clarification summary | [guide/3](guide/3-gate.md) |
 | 4 | An ADR per fork | `adr/ADR-000N.md` | [guide/4](guide/4-adr.md) |
 | 5 | C4, Context plus Containers | `png` + `dsl` | [guide/5](guide/5-c4.md) |
-| 6 | OpenAPI (YAML-first) plus a method summary | `yaml` | [guide/6](guide/6-openapi.md) |
+| 6 | OpenAPI (YAML-first) plus a method summary — or a [prompt contract](templates/prompt-contract.md), when the interface is a model call rather than an endpoint | `yaml` / `md` | [guide/6](guide/6-openapi.md) |
 | 7 | Sequence, the end-to-end process plus one diagram per contract method | `puml` + `png` | [guide/7](guide/7-sequence.md) |
 | 8 | DDL, the data model | `sql` | [guide/8](guide/8-ddl.md) |
 | 9 | Consistency gate, `tools/check-consistency` plus the AI-review checklist | verdict A to F | [checklists/ai-review](checklists/ai-review.md) |

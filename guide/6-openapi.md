@@ -7,6 +7,14 @@ The API contract, and the point where the design becomes an executable artifact.
 source of truth. Human-readable method pages are generated from the YAML, never maintained in
 parallel, so they can't drift.
 
+**When the interface is a model call, not an endpoint.** A feature whose real surface is a prompt
+has the same three things an HTTP method has — an input shape, an expected output shape, and
+failure modes — and no schema anyone can lint. Use [`templates/prompt-contract.md`](../templates/prompt-contract.md)
+in place of the YAML for that step; the rest of the pipeline is unchanged. Its failure table is
+the part that earns the step: the rows that read "not detected", and any two rows that collapse
+into the same observable outcome. See [`PROFILES.md`](../PROFILES.md) for when a feature has that
+surface and not the others.
+
 ## What goes inside
 Four parts, in order:
 
