@@ -204,6 +204,11 @@ looks like when it is finished and validated.
 Runs that are not one pass, a backlog instead of an interview, missing access to code or a database,
 or answers arriving a week after the gate asked, are covered in [`SCENARIOS.md`](SCENARIOS.md).
 
+A Russian version of the method lives at
+[system-design-from-interview-ru](https://github.com/Svetafo/system-design-from-interview-ru):
+same method, same templates and toolchain, written in Russian rather than translated. The two are
+kept in step — a change to a rule goes into both.
+
 `SCENARIOS.md` answers where you enter the method. [`PROFILES.md`](PROFILES.md) answers how much of
 it applies once you are in: which features deserve a package at all, and which steps to drop when a
 feature has fewer surfaces than the full profile assumes. Running all eight steps on a feature that
