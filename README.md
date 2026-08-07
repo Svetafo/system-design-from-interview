@@ -8,7 +8,7 @@ sequence diagrams, DDL, and ADRs. The human leads and verifies; an AI agent draf
 templates and holds the "do not invent" line.
 
 The AI accelerates the documentation. The architectural decisions, the numbers, and the names
-stay with the analyst, and the tools validate them.
+stay with a person, and the tools validate them.
 
 > This repo ships the method, the templates, the toolchain, and one complete package built with
 > them: a **personal AI trainer**, in [`example/`](example). Every artifact in it was validated by
