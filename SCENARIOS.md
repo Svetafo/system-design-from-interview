@@ -11,6 +11,7 @@ carry in.
 | B | Tickets instead of an interview | step 0, reading instead of asking | a folder of ticket text |
 | C | Resuming after answers arrive | step 2 | the answered clarification summary |
 | D | Partial sources | step 0, with the gaps named up front | whatever access you have |
+| E | Reverse from code | step 0, reading code instead of asking | a running system and its schema |
 
 ---
 
