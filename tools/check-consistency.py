@@ -203,7 +203,12 @@ def check_sequence(text, gl, fails, warns):
     # message is a bot command or a file path, not a contract path. Only check when there is a
     # contract to check against.
     if gl["endpoint_paths"]:
-        for path in set(re.findall(r"(/[\w{}/-]+)", text)):
+        # Notes are prose, not messages: a filesystem path quoted in one is not a contract path.
+        # Strip them before looking for endpoints, or documenting a directory fails the gate.
+        messages = re.sub(r"^\s*note\b.*?^\s*end\s*note\s*$", "", text,
+                          flags=re.S | re.M | re.I)
+        messages = re.sub(r"^\s*note\b[^\n]*$", "", messages, flags=re.M | re.I)
+        for path in set(re.findall(r"(/[\w{}/-]+)", messages)):
             if path not in gl["endpoint_paths"]:
                 fails.append(f"Sequence message path not a glossary Endpoint: {path}")
 
