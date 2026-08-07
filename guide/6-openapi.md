@@ -51,6 +51,10 @@ paths:
 
 Tags, schema names, and endpoints all come from the [glossary](../templates/glossary.md). Add each new endpoint to the glossary as you define it, so the sequence step reuses the same paths.
 
+Start from [`templates/openapi-skeleton.yaml`](../templates/openapi-skeleton.yaml), which passes
+`redocly lint` as it stands: tags already sit where C4 container names go, schema names where
+glossary entities go, and enum values where the DDL `CHECK` will repeat them.
+
 ## Which diagram
 None here, but the API feeds the next step: sequence diagrams use these exact endpoints.
 

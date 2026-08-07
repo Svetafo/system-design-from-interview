@@ -1,0 +1,37 @@
+@startuml
+' One diagram per contract method, plus one for the end-to-end process.
+' Participants are C4 containers and glossary external systems, verbatim.
+' Messages are OpenAPI endpoints, verbatim. Every failure branch of the contract appears.
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+autonumber
+
+actor "[Actor]" as Actor
+participant "[API]" as API
+participant "[External system]" as EXT
+database "[Database]" as DB
+
+title [METHOD /path]: [what this method does]
+
+Actor -> API : [METHOD] /path
+alt [precondition fails]
+    API --> Actor : [4XX] [what the caller is told]
+else [precondition holds]
+    API -> DB : [what is read]
+    alt [business rule not satisfied]
+        DB --> API : [what came back]
+        API --> Actor : [4XX] [nothing disclosed beyond this]
+    else [rule satisfied]
+        API -> EXT : [what is asked for]
+        alt [external call fails]
+            EXT --> API : [error or timeout]
+            API --> Actor : [5XX] [what is told, what was not written]
+        else [succeeded]
+            EXT --> API : [what came back]
+            API -> DB : [what is written]
+            API --> Actor : [2XX] [what is returned]
+        end
+    end
+end
+
+@enduml

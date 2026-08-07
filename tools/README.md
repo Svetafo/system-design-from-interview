@@ -79,3 +79,15 @@ Two details of how names are read:
 ## Transcription (step 1)
 Not shipped here. Use any speech-to-text tool. Whisper works well for interviews. Compress large
 recordings to mono 16 kHz or split them before uploading.
+
+## `plantuml-url.py`
+
+Turns a `.puml` file into a link to the public PlantUML viewer, for when you want to show a diagram
+to someone who has neither Docker nor the repository.
+
+```bash
+python3 tools/plantuml-url.py <diagram.puml>
+```
+
+It encodes the source into the URL, so the diagram travels inside the link and nothing is uploaded
+anywhere. A long diagram makes a long link.

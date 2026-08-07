@@ -63,4 +63,7 @@ Then confirm every requirement entity has a table and every enum matches the Ope
 This is the last authored artifact. Next: the [AI-review checklist](../checklists/ai-review.md)
 and the consistency gate.
 
+Start from [`templates/ddl.sql`](../templates/ddl.sql), which applies to PostgreSQL 16 once the
+placeholders are replaced.
+
 See this step's output in the example package: [`db/schema.sql`](../example/db/schema.sql), applied to a live PostgreSQL 16.

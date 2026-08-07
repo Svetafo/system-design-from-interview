@@ -60,6 +60,9 @@ appears in the OpenAPI paths. This is one of the checks `tools/check-consistency
 - It renders cleanly from source.
 - No internal container logic leaks into the cross-participant view.
 
+Start from [`templates/sequence.puml`](../templates/sequence.puml), which renders as it stands and
+already carries the shape of a failure branch.
+
 See this step's output in the example package: [`sequence/`](../example/sequence), a process diagram plus one per contract method.
 
 Next: [Step 8: DDL](8-ddl.md).

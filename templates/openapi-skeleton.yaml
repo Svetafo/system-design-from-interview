@@ -1,0 +1,123 @@
+openapi: 3.1.0
+
+info:
+  title: "[System] API"
+  version: "1.0.0"
+  description: "[What the service does, one or two sentences.]"
+  license:
+    name: Proprietary
+    identifier: LicenseRef-Proprietary
+
+servers:
+  - url: https://api.example.local/v1
+    description: "[Environment]"
+
+# Tags equal C4 container names, verbatim. This is what the consistency gate checks.
+tags:
+  - name: "[API]"
+    description: "[What this container serves]"
+
+security:
+  - bearerAuth: []
+
+paths:
+
+  /[resources]:
+    get:
+      tags: ["[API]"]
+      operationId: list[Resources]
+      summary: "[What it returns]"
+      description: |
+        [Traces to FR-N. What the caller gets and what they do not.]
+      responses:
+        "200":
+          description: "[What came back]"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Resource"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+    post:
+      tags: ["[API]"]
+      operationId: create[Resource]
+      summary: "[What it creates]"
+      description: |
+        [Traces to FR-N and UC-N. Name the business rule it enforces, if any.]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResourceCreate"
+      responses:
+        "201":
+          description: "[What was created]"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resource"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          description: "[Which business rule refused it]"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  schemas:
+
+    # Schema names equal glossary entity names, verbatim. Identifiers cannot carry brackets, so
+    # these read as plain words: rename them to your entities before writing anything else.
+    Resource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          $ref: "#/components/schemas/Status"
+      required: [id, status]
+
+    ResourceCreate:
+      type: object
+      properties:
+        name:
+          type: string
+      required: [name]
+
+    # Enum values are the glossary's, verbatim, and the same values appear in the DDL CHECK.
+    Status:
+      type: string
+      enum: ["[VALUE_A]", "[VALUE_B]"]
+
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+      required: [detail]
+
+# Validate before asking for review, and expect zero errors:
+#   npx @redocly/cli lint api.yaml
+# The generated reference is never hand-edited:
+#   npx @redocly/cli build-docs api.yaml -o api-reference.html
