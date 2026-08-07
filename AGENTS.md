@@ -38,7 +38,7 @@ shot: what speeds up then is not the work but the spread of an error.
 | 7 | Sequence diagrams: the process, plus one per contract method | |
 | 8 | DDL | |
 | 9 | Run the gate and the review checklist | `checklists/ai-review.md` |
-| 10 | Hand the package to implementation | see `guide/10-implementation.md` |
+| 10 | Close out the register, then hand the package to implementation | see `guide/10-implementation.md` |
 
 Steps 0 and 1 (the interview and its transcript) are the human's. You start from the transcript.
 

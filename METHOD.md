@@ -44,7 +44,7 @@ not the agent.
 | 7 | Sequence | The end-to-end process plus one diagram per method in the contract, each in detail. Same participants and endpoints as C4 and OpenAPI. | `.puml`, `.png` |
 | 8 | DDL | The data model: types, keys, constraints, indexes, comments. Checked on a live database. | `schema.sql` |
 | 9 | Review | The whole package is checked for consistency, validity, grounding, and coverage. | verdict A to F |
-| 10 | Implementation | The package is handed to a coding agent, which plans, breaks into tasks, and builds, with the glossary as the leash. Bridges to any SDD toolchain or runs built-in. | working software |
+| 10 | Implementation | The register is closed out, then the package is handed to a coding agent, which plans, breaks into tasks, and builds, with the glossary as the leash. Bridges to any SDD toolchain or runs built-in. | working software |
 
 ## Cross-artifact consistency
 This is what a review catches first. The same names for entities, fields, and endpoints across

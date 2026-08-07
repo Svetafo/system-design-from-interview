@@ -75,7 +75,7 @@ From there it's the standard SDD path downward.
 | 7 | Sequence, the end-to-end process plus one diagram per contract method | `puml` + `png` | [guide/7](guide/7-sequence.md) |
 | 8 | DDL, the data model | `sql` | [guide/8](guide/8-ddl.md) |
 | 9 | Consistency gate, `tools/check-consistency` plus the AI-review checklist | verdict A to F | [checklists/ai-review](checklists/ai-review.md) |
-| 10 | From package to implementation, hand off to a coding agent | working software | [guide/10](guide/10-implementation.md) |
+| 10 | Close out the register, then hand the package to a coding agent | working software | [guide/10](guide/10-implementation.md) |
 
 ## Cross-artifact consistency (what the review catches first)
 
