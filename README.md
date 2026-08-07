@@ -204,6 +204,11 @@ looks like when it is finished and validated.
 Runs that are not one pass, a backlog instead of an interview, missing access to code or a database,
 or answers arriving a week after the gate asked, are covered in [`SCENARIOS.md`](SCENARIOS.md).
 
+`SCENARIOS.md` answers where you enter the method. [`PROFILES.md`](PROFILES.md) answers how much of
+it applies once you are in: which features deserve a package at all, and which steps to drop when a
+feature has fewer surfaces than the full profile assumes. Running all eight steps on a feature that
+lives inside one deployable is not thoroughness, it is ritual.
+
 ## Context engineering (built into the method)
 
 - **Write.** The open-questions register as external memory against hallucination.
