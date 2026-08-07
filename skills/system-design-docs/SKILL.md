@@ -46,6 +46,32 @@ you do not stall: mark it an ADR candidate, park it, keep moving.
 One artifact at a time, with a checkpoint after each. Generating the whole package in one shot
 speeds up the spread of an error, not the work.
 
+## How much of the method applies (decide before step 2)
+
+Full rule in `PROFILES.md` at the repository root. Two questions, in order.
+
+**1. Can this break silently?** If a break announces itself — a 500, a crash, a red test, a user who
+writes in — there is no package to write; tests and monitoring catch it cheaper. A package earns its
+cost where a break produces a plausible-looking result. No silent failure mode, no package.
+
+**2. Which surfaces does it have?** A surface is where the feature makes a promise something outside
+relies on. Network (endpoint, topic, webhook) → OpenAPI. Data (a table whose rows have a lifecycle)
+→ DDL. Model (a prompt whose answer the code parses or shows) → `templates/prompt-contract.md`.
+Reading someone else's table is not a surface.
+
+Two or three surfaces, run the full profile. One, run the reduced profile: requirements, register,
+glossary, ADRs, the logic flowchart, and the artifact for the surface that exists. Drop the
+artifacts for surfaces that do not.
+
+C4 is decided separately: does the feature change the set of deployable pieces or how they talk? If
+it lives inside one of them, C4 has nothing to draw — keep component-level logic in a flowchart.
+
+**Say the cost of a reduced profile out loud in the package.** The consistency gate works by
+cross-checking names between artifacts; removing C4, OpenAPI and DDL removes most of what it checks
+against. It still passes, but a pass now means only that the glossary agrees with itself, and it
+looks identical on the terminal. What replaces it is filling the one contract you do have —
+completely, especially its failure table.
+
 ## Order of work
 
 Steps 0 and 1 belong to the human. You start from the transcript.
