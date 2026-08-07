@@ -143,3 +143,35 @@ and let the list of blocked artifacts be part of what you hand over.
 The failure mode here is not an incomplete package, it is a complete-looking package resting on
 invention. An artifact honestly marked as blocked costs nothing later. One quietly filled in costs
 whoever builds from it.
+
+## E. Reverse from code
+
+The input is a running system. No stakeholder, no tickets, no transcript: source files, migrations,
+a database schema. You are not designing something, you are writing down what already runs.
+
+**What changes.** Step 0 becomes reading code. Step 1 disappears. The glossary is seeded from names
+that already exist in the code, not from names you choose, and every artifact traces to a file and a
+line rather than to a requirement.
+
+**What a reverse package does not contain, and why.** Code states what it does. It does not state
+what anyone wanted. Everything that is intent has to be left out or asked, never reconstructed:
+
+- **Business requirements.** Absent on purpose. Recovering them after the fact means presenting your
+  own reconstruction as a source. If someone later reads them as the original intent, the package
+  has done harm.
+- **ADRs.** There are no open forks: the decisions were made and are running. Where one looks wrong,
+  it goes into the register as a question, not into an ADR that re-litigates it in hindsight.
+- **Goal, metric, acceptance criteria.** Not in the code. If they matter, they come from a person,
+  which is scenario A or C, not this one.
+
+What a reverse package does contain is the contract and the data model — the two things the code
+genuinely asserts — plus sequence diagrams and the register.
+
+**What to expect.** The register fills with findings rather than gaps: places where the code
+contradicts its own comments, error paths that collapse into one outcome, names that drift between
+layers. That is the payoff of this scenario. Building the artifact forces questions that reading the
+code straight through never asks, and the answers are defects.
+
+**Where it ends.** Hand the findings to the backlog as work, not as documentation. A reverse package
+is finished when the register is empty of things you can close yourself, not when every step of the
+pipeline has been run.
