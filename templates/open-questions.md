@@ -54,6 +54,12 @@ holding the package. Four things hold whether you answer in writing or out loud:
 
 When the answers are in, follow scenario C: close here, then apply them to the artifacts.
 
+Most of what sits here does not need a person at all: it needs someone to go and look. Sorting the
+two apart is what the triage skill does, see [`skills/question-triage`](../skills/question-triage).
+
+At step 10 every entry still open gets a fate: work, a decision, documented behaviour, or dropped
+with a reason. The rule is in [`guide/10-implementation.md`](../guide/10-implementation.md).
+
 ## When to also write a clarification summary
 
 Only when the person answering is outside the package: a stakeholder, a product owner on another

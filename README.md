@@ -170,6 +170,11 @@ read-only and supplies the formats and the validators.
 If `ln` reports `File exists`, you already have a skill by that name. Rename or remove yours first,
 or symlink this one under a different name: the last path segment is what the agent will call it.
 
+A second skill, [`skills/question-triage`](skills/question-triage), works the open-questions register
+rather than the pipeline: it sorts entries into what a primary source can close, what only a person
+can decide, and what is already answered elsewhere, then closes the first kind by going and looking.
+It never closes the second, and the reason is in its own file. Install it the same way.
+
 Then work the pipeline, one artifact at a time, stopping for review after each:
 
 1. **Interview** (step 0, yours, not the agent's). Run it with

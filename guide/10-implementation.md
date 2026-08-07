@@ -7,6 +7,32 @@ coding agent and build from it without drift, and where the human still owns the
 method is the front half, from interview to package; implementation is the back half. This step
 is tool-agnostic: it works with any coding agent and any SDD toolchain.
 
+## Close out the register first
+
+Before the handoff, every entry still open in `open-questions.md` gets a fate. A package that goes
+into implementation with a live register leaves a folder nobody can read six months later: twenty
+questions, and no way to tell which are still real.
+
+Each remaining entry becomes exactly one of four things.
+
+- **Work.** It was never a question, it was a defect or a task. Move it to the project's backlog,
+  with the file and the fix, and link back to the package. It leaves the register.
+- **A decision.** It has real alternatives and someone has to choose. Write the ADR, or, if the
+  choice belongs to implementation, hand it over named as a decision the builder must make and not
+  quietly resolve.
+- **Documented behaviour.** Not work and not a decision, just something nobody had written down.
+  It lives in the artifact that describes it, the contract or the DDL, and it leaves the register
+  with a pointer there.
+- **Dropped.** It stopped mattering. Say so and say why. A dropped entry with a reason is a
+  record; a dropped entry that quietly disappears is a hole in the trail.
+
+What must not happen is the fifth option: leaving it open and handing the package over anyway. An
+open entry is a claim that someone will come back to it, and nobody comes back to a register whose
+package has already shipped.
+
+Update the package state with the outcome, so the folder still describes itself after the work
+moves elsewhere.
+
 ## What the package gives the agent
 A grounded, consistent brief instead of a vague ticket:
 
