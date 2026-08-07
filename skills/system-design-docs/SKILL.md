@@ -67,7 +67,11 @@ package; do not rebuild it from step 0.
    value is missing, never a plausible default.
 3. **ADR** (step 4) per fork, from `$REPO/templates/ADR.md`: Context, Options, Decision,
    Consequences.
-4. **C4** (step 5) as Structurizr DSL, Context and Container views from one model. Render:
+4. **C4** (step 5), two paths. Default is Structurizr DSL,
+   `$REPO/templates/c4-workspace.dsl`, Context and Container views from one model. The canvas path,
+   `$REPO/templates/c4.drawio`, exists for when the diagram has to be edited by someone who will not
+   read a DSL; it is validated by nothing, so names are kept aligned by hand. See
+   `$REPO/guide/5-c4.md` before choosing. On the default path, render:
    ```bash
    bash tools/c4-render.sh <workspace.dsl> <output-dir>
    ```

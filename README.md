@@ -99,7 +99,8 @@ the difference between "I checked" and "it's checked."
 |----------|------|-------|
 | Transcript | Whisper (or any transcriber) | (none) |
 | Requirements, ADR | Markdown from templates | human review |
-| C4 | Structurizr DSL, C4-PlantUML (Docker) | DSL validates, PNG/SVG render |
+| C4 (code) | Structurizr DSL, C4-PlantUML (Docker) | DSL validates, PNG/SVG render |
+| C4 (canvas) | native draw.io | nothing validates it, see guide/5 |
 | OpenAPI | YAML, `@redocly/cli lint` | 0 linter errors |
 | Sequence | PlantUML (Docker) | render from source |
 | DDL | SQL, PostgreSQL 16 (Docker) | applies on a live DB |
