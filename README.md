@@ -17,6 +17,9 @@ stay with a person, and the tools validate them.
 ## Who it's for
 
 - Systems analysts who assemble design documentation and want to do it faster without losing rigor.
+- Developers who would rather settle the design before writing the code, and who are often the ones
+  asking the stakeholder anyway. That asking is analyst work whoever does it, and this is a way to
+  do it — not a way to route it to someone else.
 - People who orchestrate an AI agent and are tired of the agent inventing entities that don't exist.
 - Anyone who needs a coherent package where names and contracts agree across every artifact. The
   usual failure is six documents that each look fine and contradict each other.
