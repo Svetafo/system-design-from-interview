@@ -13,6 +13,10 @@ carry in.
 | D | Partial sources | step 0, with the gaps named up front | whatever access you have |
 | E | Reverse from code | step 0, reading code instead of asking | a running system and its schema |
 
+**Who "you" is here.** By default, whoever is running the work: the human brings the input, makes
+the decisions and hands the package on; the agent drafts the artifacts and holds the "do not invent"
+line. Where the roles diverge, it says so.
+
 ---
 
 ## A. Interview to package
@@ -133,13 +137,14 @@ Some of what the package needs is out of reach: no database access, no code, a c
 find, a stakeholder who is unavailable for a month.
 
 **What changes.** Nothing in the method, but the boundary is declared up front instead of
-discovered at step 8. Name, before drafting starts, which artifacts cannot be completed and why. A
-DDL without access to the real schema is a proposal, and it is marked as one, not presented as a
-data model.
+discovered at step 8. The human names, before drafting starts, which artifacts cannot be completed
+and why. A DDL without access to the real schema is a proposal, and the agent marks it as one rather
+than presenting it as a data model.
 
 **What still gets built.** More than expected. Requirements, the glossary, ADRs for the forks, C4
-context, and the method summary rarely depend on the missing access. Build those, mark the rest,
-and let the list of blocked artifacts be part of what you hand over.
+context, and the method summary rarely depend on the missing access. The agent builds those and
+marks the rest. The human hands the list of blocked artifacts over with the package: it is part of
+the result, not an excuse for it.
 
 The failure mode here is not an incomplete package, it is a complete-looking package resting on
 invention. An artifact honestly marked as blocked costs nothing later. One quietly filled in costs
@@ -151,7 +156,7 @@ The input is a running system. No stakeholder, no tickets, no transcript: source
 a database schema. You are not designing something, you are writing down what already runs.
 
 **What changes.** Step 0 becomes reading code. Step 1 disappears. The glossary is seeded from names
-that already exist in the code, not from names you choose, and every artifact traces to a file and a
+that already exist in the code, not from names that merely seem apt, and every artifact traces to a file and a
 line rather than to a requirement.
 
 **What a reverse package does not contain, and why.** Code states what it does. It does not state
