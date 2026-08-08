@@ -20,6 +20,10 @@ stay with a person, and the tools validate them.
 - Developers who would rather settle the design before writing the code, and who are often the ones
   asking the stakeholder anyway. That asking is analyst work whoever does it, and this is a way to
   do it — not a way to route it to someone else.
+- People taking apart a system with no documentation — inherited, or written by an agent last month.
+  Vibe-coding produces more of these every day: the code runs, and why it is the way it is exists
+  nowhere. Scenario E covers it, reverse from code — it recovers the contract and the data model,
+  and deliberately does not recover the intent, because the intent is not in the code.
 - People who orchestrate an AI agent and are tired of the agent inventing entities that don't exist.
 - Anyone who needs a coherent package where names and contracts agree across every artifact. The
   usual failure is six documents that each look fine and contradict each other.
