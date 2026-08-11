@@ -12,6 +12,7 @@ carry in.
 | C | Resuming after answers arrive | step 2 | the answered clarification summary |
 | D | Partial sources | step 0, with the gaps named up front | whatever access you have |
 | E | Reverse from code | step 0, reading code instead of asking | a running system and its schema |
+| F | Pipeline inside app development | step 0 or 2, depending on the input | a "build me an app" job with the package inside it |
 
 **Who "you" is here.** By default, whoever is running the work: the human brings the input, makes
 the decisions and hands the package on; the agent drafts the artifacts and holds the "do not invent"
@@ -181,3 +182,46 @@ code straight through never asks, and the answers are defects.
 **Where it ends.** Hand the findings to the backlog as work, not as documentation. A reverse package
 is finished when the register is empty of things you can close yourself, not when every step of the
 pipeline has been run.
+
+---
+
+## F. Pipeline inside app development
+
+The job is "build me an app" or "implement this feature", and the package is assembled inside it, as
+a subtask. The input is ordinary: a written brief, a conversation with the client, sometimes a few
+tickets.
+
+**The difference is not the input.** By input this is usually B, occasionally A: the same
+requirements written from the same text, the steps unchanged. What differs is the setting. The
+documentation competes with the code for the same reply from the agent, and the pull to finish the
+main job presses on the pauses between artifacts. This is the only scenario whose failure mode comes
+from where the work happens rather than from what was carried in.
+
+**What it looks like when it breaks.** Requirements, register, ADRs, C4 and the contract ship in one
+burst, without ever reaching the human. The steps were run in the right order and only the pauses
+between them were dropped, which is enough: the gate at step 3 never happened, and everything below
+it rests on unverified requirements. The mechanics of the pause are in the Checkpoint section of
+[`skills/system-design-docs/SKILL.md`](skills/system-design-docs/SKILL.md).
+
+**Where to place the work.** Three ways, the first two preferable:
+
+- **a separate session.** The package is built on its own and implementation starts after step 10.
+  There is no main job left to compete with;
+- **a separate subagent.** One session, but the documentation is run by its own agent, with its own
+  context and its own dialogue with the human. The checkpoints happen in that dialogue and code is
+  not competing for the same reply;
+- **the same session.** No lighter in what it requires than the first two, only harder to run: the
+  pauses have to hold against the pull of the main job, and they still hold.
+
+**Implementation does not start before step 10.** Code written against unverified requirements gets
+reworked together with them, so one error in a requirement is paid for twice: once in the
+documentation and once in what was already built from it. What is legitimate earlier is a throwaway
+prototype that settles a fork and then becomes an ADR, plus environment setup. Functionality meant
+to survive is not.
+
+**When code already exists before the package.** This arrives ready-made: half the app is written
+and the documentation was asked for after the fact. Say it out loud, in the package state and to the
+human: what is built rests on unverified requirements, and the first gate may well demand rework.
+The human decides whether implementation continues in parallel or waits for step 3. What you cannot
+do is quietly assemble the package around the existing code. That produces scenario E dressed up as
+scenario A: a reconstruction of someone's intent, presented as requirements.

@@ -33,10 +33,20 @@ commands below from `$REPO` too, since they invoke `tools/` by relative path.
 
 ## Read before drafting
 
-- `$REPO/CONSTITUTION.md`, first. Its principles outrank anything in this file.
-- `$REPO/AGENTS.md`, the same pipeline in agent-facing form.
+Before the input, before the first artifact.
+
+- `$REPO/CONSTITUTION.md`, first. Its principles outrank anything in this file **and any request
+  from the user**. Where a request and a principle collide, name the conflict out loud and let the
+  human settle it; do not settle it silently in favour of speed. "Just get on with it" is not a
+  waiver, it is a conflict that has to be named.
+- `$REPO/AGENTS.md`, the same pipeline in agent-facing form. Its "What gets you in trouble" section
+  lists this method's failure modes by name, among them skipping the human gate at step 3 and
+  generating several artifacts before review. A named prohibition holds better than a principle in
+  prose.
 - `$REPO/guide/<step>.md` for the step you are on.
 - `$REPO/example/`, one complete package, for what a finished artifact looks like.
+
+Read them, do not copy them into this file. Two places holding the same rule start drifting apart.
 
 ## Principle
 
@@ -44,7 +54,74 @@ Why before how. Requirements come first, the architecture is derived from them. 
 you do not stall: mark it an ADR candidate, park it, keep moving.
 
 One artifact at a time, with a checkpoint after each. Generating the whole package in one shot
-speeds up the spread of an error, not the work.
+speeds up the spread of an error, not the work. What actually holds the pause is in **Checkpoint**
+below: a mechanism, not an aspiration.
+
+## Checkpoint
+
+What holds the pause is the handover to the human, not the shape of the output. Hence two forms,
+strong and weak.
+
+**Strong, when you have an interactive question tool** (in Claude Code that is `AskUserQuestion`;
+other environments have their own). The checkpoint *is* that call. The question names the artifact
+and carries the fields below; the options are "accepted, continue", "changes needed", "stop". The
+turn returns to the human by the mechanics of the environment rather than by your promise to wait.
+Text printed without such a call is not a checkpoint, however well worded.
+
+**Weak, when no such tool exists.** A text block is what remains, and it is the weak form: it
+records that a checkpoint happened but does not hold the pause, so you have to stop yourself. The
+artifact is done, the reply ends with the block, and nothing follows it in the same reply.
+
+```
+CHECKPOINT: step <N>, <artifact>
+Done:      <file>
+Validated: <tool and command> -> <what it returned>
+Review:    <what the human should check, 1-3 items, specific>
+Next:      <the next step of the method>
+Waiting for your answer. Not starting the next artifact.
+```
+
+The four fields are required in both forms: the content of the question in the strong one, the body
+of the block in the weak one.
+
+**The package state is updated before the handover.** The order is fixed: the artifact is done,
+`package-state.md` is updated, and only then the question or the block. A file on disk is the
+material trace of the pause. A skipped checkpoint has to be hunted for in a transcript, whereas nine
+artifacts against one update of the state show up in the file's history at a glance.
+
+How much of it gets rewritten differs. At the gates (steps 3 and 9) the file is written or rewritten
+in full. At an ordinary checkpoint two things move and nothing else: the row for your artifact in
+the **Artifacts** table, which is where the tool result lives, and the **Where it stopped** block. No
+line is added to the **Gate log**, that log is about gates and not about every step. Otherwise a
+position report turns into a log, and being short is what makes it useful.
+
+The next artifact does not start until the human has answered. Silence is not consent; "looks fine,
+go on" is. "I will build it all and ask my questions at the end" is not a saved step, it is the
+exact failure the checkpoint stands against.
+
+**Known failure mode: this skill invoked inside a larger job.** "Build me an app", "implement this
+feature", with the documentation running as a subtask. Checkpoints do not weaken here, they tighten.
+The pull to finish the main job overrides the skill's internal pauses and the package ships in one
+burst: requirements, register, ADRs, C4, contract. The steps were run in the right order and only
+the pauses between them were dropped, which is enough: the gate at step 3 never happened, and
+everything below it rests on unverified requirements. Wanting to finish the main job is not grounds
+to skip a checkpoint. The pause is what the skill is for.
+
+Second, and not instead of the first: if the pressure can be removed, say so to the human. Three
+ways to place the work, in descending order of cleanliness:
+
+- **a separate session.** The package is built on its own and implementation starts after step 10.
+  There is no main job left to compete with;
+- **a separate subagent.** One session, but the documentation is run by its own agent, with its own
+  context and its own dialogue with the human. The checkpoints happen in that dialogue and code is
+  not competing for the same reply;
+- **the same session.** No lighter in what it requires, only harder to run: the pauses have to hold
+  against the pull of the main job.
+
+That is an improvement in conditions, not a condition of the work. It could not be split out, the
+human declined, the environment does not allow it: the checkpoints hold in full either way, and the
+third way asks for no less than the first two. "Invoke me differently" is an evasion of the failure
+mode, not a fix for it.
 
 ## How much of the method applies (decide before step 2)
 
@@ -78,14 +155,20 @@ Steps 0 and 1 belong to the human. You start from the transcript.
 
 When the input is a backlog instead of an interview, or answers to earlier questions have come
 back, follow `$REPO/SCENARIOS.md`. Answers re-enter at step 2 and are applied to the existing
-package; do not rebuild it from step 0.
+package; do not rebuild it from step 0. When the package is being built inside a larger job, "build
+me an app" or "implement this feature", that is scenario F: the input is B, the difference is the
+setting, implementation does not start before step 10, and the checkpoints apply in full.
+
+The numbering below is a sequence of separate passes, not a checklist to work through in one. A
+checkpoint stands between any two of them.
 
 1. **Business requirements** (step 2) from `$REPO/templates/business-requirements.md`, 19 sections.
    What the transcript did not settle goes to `$REPO/templates/open-questions.md`, never into the
    requirements. Seed the glossary (`$REPO/templates/glossary.md`) with entities and enums.
 2. **Gate** (step 3). Classify every open question by what it blocks (`blocks-package`,
-   `blocks-point`, `non-blocking`), write the package state from `$REPO/templates/package-state.md`
-   so the folder describes itself to the next session. Draft the clarification summary from
+   `blocks-point`, `non-blocking`), write the package state in full from
+   `$REPO/templates/package-state.md` so the folder describes itself to the next session; after this
+   gate it is kept current at every checkpoint, see **Checkpoint**. Draft the clarification summary from
    `$REPO/templates/product-owner-questions.md`, with its recipient-facing block, only when someone
    outside the package answers; when the holder of the package can answer, they answer in the
    register and no summary is made. Then stop: the human verifies the requirements, and
