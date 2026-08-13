@@ -216,6 +216,18 @@ checkpoint stands between any two of them.
    `$REPO/checklists/ai-review.md`.
 9. **Hand off** (step 10), see `$REPO/guide/10-implementation.md`.
 
+   **After hand-off the package state does not freeze. Update it on every deploy.** The checkpoints
+   ended with the build, and this is exactly where `package-state.md` starts to drift: the package
+   was built step by step with pauses and was accurate, then came code, deployment and fixes driven
+   by real use, and nobody touched the file. Two days later it claims a review was never done when
+   it was, and names a blocker that closed long ago.
+
+   Keep the update short, same rule as an ordinary checkpoint: the artifact's own row, the "Where it
+   stopped" block, the "What next" section. Plus the two questions the file must answer once the
+   thing is live: where it is deployed, and what is still open. Requirements that grow out of real
+   use belong in the requirements, not in the memory of a conversation: an FR discovered after the
+   first real session is no worse than one written before it.
+
 Artifacts are written into the user's project, not into `$REPO`. The repository is read-only here:
 it supplies the formats and the validators.
 
